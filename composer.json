@@ -1,0 +1,19 @@
+{
+    "name": "widgetsburritos/webpagetest",
+    "description": "PHP Library for Interacting with Web Page Test",
+    "version": "0.1.0",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.2"
+    },
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "WidgetsBurritos",
+            "email": "davidstinemetze@gmail.com"
+        }
+    ]
+}
