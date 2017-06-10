@@ -15,5 +15,15 @@
             "name": "WidgetsBurritos",
             "email": "davidstinemetze@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "WidgetsBurritos\\WebPageTest\\": ""
+        }
+    },
+    "scripts": {
+        "test": [
+          "vendor/bin/phpunit tests/*"
+        ]
+    }
 }
