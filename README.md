@@ -2,6 +2,8 @@
 
 A php library for interacting with webpagetest.org.
 
+*Requires PHP 7+*
+
 ## Usage
 
 ### Instantiating a new instance
