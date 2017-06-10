@@ -4,6 +4,7 @@
     "version": "0.1.0",
     "type": "library",
     "require": {
+        "php": ">=7.0",
         "guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {
@@ -18,12 +19,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "WidgetsBurritos\\WebPageTest\\": ""
+            "WidgetsBurritos\\WebPageTest\\": "src"
         }
     },
     "scripts": {
         "test": [
-          "vendor/bin/phpunit tests/*"
+          "vendor/bin/phpunit --testsuite=WebPageTest"
         ]
     }
 }

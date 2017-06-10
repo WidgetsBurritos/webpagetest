@@ -11,7 +11,7 @@ use GuzzleHttp\Exception\RequestException;
 /**
  * Tests for WebPageTest class.
  */
-class WebPageTestUnit extends TestCase {
+class WebPageTestUnitTest extends TestCase {
 
   /**
    * Test runTest() functionality.
