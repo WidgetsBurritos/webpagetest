@@ -28,16 +28,14 @@ class WebPageTestUnitTest extends TestCase {
 
     // Test a successful connection.
     $response = $wpt->runTest('https://www.google.com');
-    $result = json_decode($response->getBody());
-    $this->assertEquals(200, $result->statusCode);
+    $this->assertEquals(200, $response->statusCode);
     $expected_url = 'http://www.webpagetest.org/jsonResult.php?test=ABC123';
-    $this->assertEquals($expected_url, $result->data->jsonUrl);
+    $this->assertEquals($expected_url, $response->data->jsonUrl);
 
     // Test a bad API key.
     $response = $wpt->runTest('https://www.google.com');
-    $result = json_decode($response->getBody());
-    $this->assertEquals(400, $result->statusCode);
-    $this->assertEquals('Invalid API Key', $result->statusText);
+    $this->assertEquals(400, $response->statusCode);
+    $this->assertEquals('Invalid API Key', $response->statusText);
 
     // Test a connection failure.
     $response = $wpt->runTest('https://www.google.com');
@@ -60,23 +58,20 @@ class WebPageTestUnitTest extends TestCase {
 
     // Test a completed test.
     $response = $wpt->getTestStatus('ABC123');
-    $result = json_decode($response->getBody());
-    $this->assertEquals(200, $result->statusCode);
-    $this->assertEquals('Test Complete', $result->statusText);
-    $this->assertEquals(1, $result->data->testsCompleted);
+    $this->assertEquals(200, $response->statusCode);
+    $this->assertEquals('Test Complete', $response->statusText);
+    $this->assertEquals(1, $response->data->testsCompleted);
 
     // Test a running test.
     $response = $wpt->getTestStatus('ABC123');
-    $result = json_decode($response->getBody());
-    $this->assertEquals(100, $result->statusCode);
-    $this->assertEquals('Test Started 7 seconds ago', $result->statusText);
-    $this->assertEquals(0, $result->data->testsCompleted);
+    $this->assertEquals(100, $response->statusCode);
+    $this->assertEquals('Test Started 7 seconds ago', $response->statusText);
+    $this->assertEquals(0, $response->data->testsCompleted);
 
     // Test an invalid test.
     $response = $wpt->getTestStatus('invalid');
-    $result = json_decode($response->getBody());
-    $this->assertEquals(400, $result->statusCode);
-    $this->assertEquals('Test not found', $result->statusText);
+    $this->assertEquals(400, $response->statusCode);
+    $this->assertEquals('Test not found', $response->statusText);
 
     // Test a connection failure.
     $response = $wpt->getTestStatus('ABC123');
@@ -99,24 +94,21 @@ class WebPageTestUnitTest extends TestCase {
 
     // Test a completed test.
     $response = $wpt->getTestResults('ABC123');
-    $result = json_decode($response->getBody());
-    $this->assertEquals(200, $result->statusCode);
-    $this->assertEquals('https://www.google.com', $result->data->testUrl);
-    $this->assertEquals(1, count($result->data->runs));
-    $this->assertEquals(3834, $result->data->average->firstView->fullyLoaded);
-    $this->assertEquals(3390, $result->data->average->repeatView->fullyLoaded);
+    $this->assertEquals(200, $response->statusCode);
+    $this->assertEquals('https://www.google.com', $response->data->testUrl);
+    $this->assertEquals(1, count($response->data->runs));
+    $this->assertEquals(3834, $response->data->average->firstView->fullyLoaded);
+    $this->assertEquals(3390, $response->data->average->repeatView->fullyLoaded);
 
     // Test a running test.
     $response = $wpt->getTestResults('ABC123');
-    $result = json_decode($response->getBody());
-    $this->assertEquals(100, $result->statusCode);
-    $this->assertEquals('Test Started 15 seconds ago', $result->statusText);
+    $this->assertEquals(100, $response->statusCode);
+    $this->assertEquals('Test Started 15 seconds ago', $response->statusText);
 
     // Test an invalid test.
     $response = $wpt->getTestResults('invalid');
-    $result = json_decode($response->getBody());
-    $this->assertEquals(400, $result->statusCode);
-    $this->assertEquals('Test not found', $result->statusText);
+    $this->assertEquals(400, $response->statusCode);
+    $this->assertEquals('Test not found', $response->statusText);
 
     // Test a connection failure.
     $response = $wpt->getTestResults('ABC123');
@@ -137,9 +129,8 @@ class WebPageTestUnitTest extends TestCase {
 
     // Test a completed test.
     $response = $wpt->getLocations();
-    $result = json_decode($response->getBody());
-    $this->assertEquals(200, $result->statusCode);
-    $this->assertObjectHasAttribute('Dulles_MotoE', $result->data);
+    $this->assertEquals(200, $response->statusCode);
+    $this->assertObjectHasAttribute('Dulles_MotoE', $response->data);
 
     // Test a connection failure.
     $response = $wpt->getLocations();

@@ -22,14 +22,10 @@ $wpt = new WebPageTest('YOUR_API_KEY');
 <?php
 
 if ($response = $wpt->runTest('https://www.google.com')) {
-
-  // Parse the response.
-  $result = json_decode($response->getBody());
-
-  if ($result->statusCode == 200) {
-    $test_id = $result->data->testId;
+  if ($response->statusCode == 200) {
+    // All test info is available in $response->data.
+    $test_id = $response->data->testId;
   }
-
 }
 ```
 
@@ -37,12 +33,11 @@ if ($response = $wpt->runTest('https://www.google.com')) {
 ```php
 <?php
 if ($response = $wpt->getTestStatus($test_id)) {
-  $result = json_decode($response->getBody());
-
-  if ($result->statusCode == 200) {
+  // All test info is available in $response->data.
+  if ($response->statusCode == 200) {
     // Test is complete.
   }
-  else if ($result->statusCode == 100) {
+  else if ($response->statusCode == 100) {
     // Test is still running.
   }
   else {
@@ -56,13 +51,11 @@ if ($response = $wpt->getTestStatus($test_id)) {
 ```php
 <?php
 if ($response = $wpt->getTestResults($test_id)) {
-  $result = json_decode($response->getBody());
-
-  if ($result->statusCode == 200) {
+  // All test result info is available in $response->data.
+  if ($response->statusCode == 200) {
     // Test is complete.
-    // $result->data contains all the test results.
   }
-  else if ($result->statusCode == 100) {
+  else if ($response->statusCode == 100) {
     // Test is still running.
   }
   else {
@@ -76,10 +69,8 @@ if ($response = $wpt->getTestResults($test_id)) {
 ```php
 <?php
 if ($response = $wpt->getLocations()) {
-  $result = json_decode($response->getBody());
-
-  if ($result->statusCode == 200) {
-    // Locations are available in $result->data.
+  if ($response->statusCode == 200) {
+    // All locations info is available in $response->data.
   }
 }
 ?>
