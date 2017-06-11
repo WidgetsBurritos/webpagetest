@@ -123,4 +123,27 @@ class WebPageTestUnitTest extends TestCase {
     $this->assertNull($response);
   }
 
+  /**
+   * Test getLocations() functionality.
+   */
+  public function testGetLocations() {
+    // Setup our Mock Connection.
+    $mock = new MockHandler([
+      new Response(200, [], file_get_contents(__DIR__ . '/fixtures/locations.json')),
+      new RequestException("Error Communicating with Server", new Request('GET', 'test')),
+    ]);
+    $handler = HandlerStack::create($mock);
+    $wpt = new WebPageTest('phonykey', $handler);
+
+    // Test a completed test.
+    $response = $wpt->getLocations();
+    $result = json_decode($response->getBody());
+    $this->assertEquals(200, $result->statusCode);
+    $this->assertObjectHasAttribute('Dulles_MotoE', $result->data);
+
+    // Test a connection failure.
+    $response = $wpt->getLocations();
+    $this->assertNull($response);
+  }
+
 }
