@@ -17,6 +17,8 @@ use WidgetsBurritos\WebPageTest\WebPageTest;
 $wpt = new WebPageTest('YOUR_API_KEY');
 ```
 
+To obtain a key, see [Request API Key](http://www.webpagetest.org/getkey.php).
+
 ### Running a URL test
 ```php
 <?php
@@ -27,7 +29,29 @@ if ($response = $wpt->runTest('https://www.google.com')) {
     $test_id = $response->data->testId;
   }
 }
+?>
 ```
+
+The library automatically populates the `k`, `f` and `url` query string parameters. Optionally, you can supply additional parameters by passing in array.
+
+```php
+<?php
+$options = [
+  'label' => 'My Test Label',
+  'noimages' => 1,
+  'mobile' => 1,
+];
+
+if ($response = $wpt->runTest('https://www.google.com', $options)) {
+  if ($response->statusCode == 200) {
+    // All test info is available in $response->data.
+    $test_id = $response->data->testId;
+  }
+}
+?>
+```
+
+[See the Web Page Test API documentation](https://sites.google.com/a/webpagetest.org/docs/advanced-features/webpagetest-restful-apis#TOC-Parameters) for more information on supported parameters.
 
 ### Getting a test's status
 ```php
