@@ -30,14 +30,20 @@ class WebPageTest {
    */
   private function getRequest($uri, array $query_params = []) {
     try {
-      return $this->client->request('GET', $uri, ['query' => $query_params]);
+      $response = $this->client->request('GET', $uri, ['query' => $query_params]);
     }
     catch (ClientException $e) {
-      return $e->getResponse();
+      $response = $e->getResponse();
     }
     catch (RequestException $e) {
-      return $e->getResponse();
+      $response = $e->getResponse();
     }
+
+    if ($response) {
+      return json_decode($response->getBody());
+    }
+
+    return NULL;
   }
 
   /**
@@ -79,6 +85,9 @@ class WebPageTest {
     return $this->getRequest($uri, $query_params + $options);
   }
 
+  /**
+   * Retrieves list of locations.
+   */
   public function getLocations(array $options = []) {
     $uri = 'http://www.webpagetest.org/getLocations.php';
     $query_params = [
@@ -87,4 +96,5 @@ class WebPageTest {
 
     return $this->getRequest($uri, $query_params + $options);
   }
+
 }
