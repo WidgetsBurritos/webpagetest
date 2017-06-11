@@ -43,37 +43,40 @@ class WebPageTest {
   /**
    * Initializes a new test on the specified URL.
    */
-  public function runTest($url) {
+  public function runTest($url, array $options = []) {
     $uri = 'http://www.webpagetest.org/runtest.php';
     $query_params = [
       'k' => $this->apiKey,
       'url' => $url,
       'f' => 'json',
     ];
-    return $this->getRequest($uri, $query_params);
+
+    return $this->getRequest($uri, $query_params + $options);
   }
 
   /**
    * Retrieves the status of a test with the specified id.
    */
-  public function getTestStatus($test_id) {
+  public function getTestStatus($test_id, array $options = []) {
     $uri = 'http://www.webpagetest.org/testStatus.php';
     $query_params = [
       'test' => $test_id,
       'f' => 'json',
     ];
-    return $this->getRequest($uri, $query_params);
+
+    return $this->getRequest($uri, $query_params + $options);
   }
 
   /**
    * Retrieves results of test with the specified id.
    */
-  public function getTestResults($test_id) {
+  public function getTestResults($test_id, array $options = []) {
     $uri = 'http://www.webpagetest.org/jsonResult.php';
     $query_params = [
       'test' => $test_id,
     ];
-    return $this->getRequest($uri, $query_params);
+
+    return $this->getRequest($uri, $query_params + $options);
   }
 
 }
