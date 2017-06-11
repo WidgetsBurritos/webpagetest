@@ -1,5 +1,7 @@
 # webpagetest
 
+[![Build Status](https://travis-ci.org/WidgetsBurritos/webpagetest.svg?branch=master)](https://travis-ci.org/WidgetsBurritos/webpagetest) [![Latest Stable Version](https://poser.pugx.org/WidgetsBurritos/webpagetest/version)](https://packagist.org/packages/widgetsburritos/webpagetest) [![License](https://poser.pugx.org/widgetsburritos/webpagetest/license)](https://packagist.org/packages/widgetsburritos/webpagetest) [![composer.lock](https://poser.pugx.org/widgetsburritos/webpagetest/composerlock)](https://packagist.org/packages/widgetsburritos/webpagetest)
+
 A php library for interacting with webpagetest.org.
 
 *Requires PHP 7+*
@@ -65,6 +67,19 @@ if ($response = $wpt->getTestResults($test_id)) {
   }
   else {
     // Test failed.
+  }
+}
+?>
+```
+
+### Getting test locations
+```php
+<?php
+if ($response = $wpt->getLocations()) {
+  $result = json_decode($response->getBody());
+
+  if ($result->statusCode == 200) {
+    // Locations are available in $result->data.
   }
 }
 ?>
