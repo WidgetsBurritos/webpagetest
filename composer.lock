@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e46b2a490602d371bd56e74f1172f5b",
+    "content-hash": "7f9c568d9be4286007f35f395bf4e37f",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -1248,6 +1248,59 @@
             "time": "2015-06-21T13:59:46+00:00"
         },
         {
+            "name": "shrikeh/teapot",
+            "version": "v2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shrikeh/teapot.git",
+                "reference": "a28142273cbd84813355c461a1be3e011c43d6be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shrikeh/teapot/zipball/a28142273cbd84813355c461a1be3e011c43d6be",
+                "reference": "a28142273cbd84813355c461a1be3e011c43d6be",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5",
+                "psr/http-message": "^1.0",
+                "teapot/status-code": "^1.0"
+            },
+            "require-dev": {
+                "behat/behat": "^3.2",
+                "bossa/phpspec2-expect": "^2.0",
+                "escapestudios/symfony2-coding-standard": "^2.9",
+                "phpspec/phpspec": "~3.0.0",
+                "squizlabs/php_codesniffer": "^2.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Teapot\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Barney Hanlon",
+                    "email": "barney@shrikeh.net"
+                },
+                {
+                    "name": "Andreas Möller",
+                    "email": "am@localheinz.com"
+                }
+            ],
+            "description": "PHP HTTP Response Status library",
+            "homepage": "https://shrikeh.github.io/teapot/",
+            "keywords": [
+                "http"
+            ],
+            "time": "2017-02-19T15:30:04+00:00"
+        },
+        {
             "name": "symfony/yaml",
             "version": "v3.3.2",
             "source": {
@@ -1301,6 +1354,51 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2017-06-02T22:05:06+00:00"
+        },
+        {
+            "name": "teapot/status-code",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/teapot-php/status-code.git",
+                "reference": "8b0a35083e0b2e3da434b9b3372c3665c4d44e09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/teapot-php/status-code/zipball/8b0a35083e0b2e3da434b9b3372c3665c4d44e09",
+                "reference": "8b0a35083e0b2e3da434b9b3372c3665c4d44e09",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpmd/phpmd": ">=1.4.0",
+                "squizlabs/php_codesniffer": "1.*",
+                "theseer/phpdox": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Teapot\\StatusCode\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Barney Hanlon",
+                    "email": "barney@shrikeh.net"
+                }
+            ],
+            "description": "PHP HTTP Response Status code ibrary",
+            "homepage": "http://shrikeh.github.com/teapot",
+            "keywords": [
+                "http"
+            ],
+            "time": "2016-11-15T15:33:05+00:00"
         },
         {
             "name": "webmozart/assert",

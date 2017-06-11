@@ -2,6 +2,7 @@
 
 use WidgetsBurritos\WebPageTest\WebPageTest;
 use PHPUnit\Framework\TestCase;
+use Teapot\StatusCode;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
@@ -19,8 +20,8 @@ class WebPageTestUnitTest extends TestCase {
   public function testRunTest() {
     // Setup our Mock Connection.
     $mock = new MockHandler([
-      new Response(200, [], file_get_contents(__DIR__ . '/fixtures/runtest-success.json')),
-      new Response(400, [], file_get_contents(__DIR__ . '/fixtures/runtest-badkey.json')),
+      new Response(StatusCode::OK, [], file_get_contents(__DIR__ . '/fixtures/runtest-success.json')),
+      new Response(StatusCode::BAD_REQUEST, [], file_get_contents(__DIR__ . '/fixtures/runtest-badkey.json')),
       new RequestException("Error Communicating with Server", new Request('GET', 'test')),
     ]);
     $handler = HandlerStack::create($mock);
@@ -28,13 +29,13 @@ class WebPageTestUnitTest extends TestCase {
 
     // Test a successful connection.
     $response = $wpt->runTest('https://www.google.com');
-    $this->assertEquals(200, $response->statusCode);
+    $this->assertEquals(StatusCode::OK, $response->statusCode);
     $expected_url = 'http://www.webpagetest.org/jsonResult.php?test=ABC123';
     $this->assertEquals($expected_url, $response->data->jsonUrl);
 
     // Test a bad API key.
     $response = $wpt->runTest('https://www.google.com');
-    $this->assertEquals(400, $response->statusCode);
+    $this->assertEquals(StatusCode::BAD_REQUEST, $response->statusCode);
     $this->assertEquals('Invalid API Key', $response->statusText);
 
     // Test a connection failure.
@@ -48,9 +49,9 @@ class WebPageTestUnitTest extends TestCase {
   public function testGetTestStatus() {
     // Setup our Mock Connection.
     $mock = new MockHandler([
-      new Response(200, [], file_get_contents(__DIR__ . '/fixtures/teststatus-complete.json')),
-      new Response(100, [], file_get_contents(__DIR__ . '/fixtures/teststatus-started.json')),
-      new Response(400, [], file_get_contents(__DIR__ . '/fixtures/teststatus-invalid.json')),
+      new Response(StatusCode::OK, [], file_get_contents(__DIR__ . '/fixtures/teststatus-complete.json')),
+      new Response(StatusCode::CONTINUING, [], file_get_contents(__DIR__ . '/fixtures/teststatus-started.json')),
+      new Response(StatusCode::BAD_REQUEST, [], file_get_contents(__DIR__ . '/fixtures/teststatus-invalid.json')),
       new RequestException("Error Communicating with Server", new Request('GET', 'test')),
     ]);
     $handler = HandlerStack::create($mock);
@@ -58,19 +59,19 @@ class WebPageTestUnitTest extends TestCase {
 
     // Test a completed test.
     $response = $wpt->getTestStatus('ABC123');
-    $this->assertEquals(200, $response->statusCode);
+    $this->assertEquals(StatusCode::OK, $response->statusCode);
     $this->assertEquals('Test Complete', $response->statusText);
     $this->assertEquals(1, $response->data->testsCompleted);
 
     // Test a running test.
     $response = $wpt->getTestStatus('ABC123');
-    $this->assertEquals(100, $response->statusCode);
+    $this->assertEquals(StatusCode::CONTINUING, $response->statusCode);
     $this->assertEquals('Test Started 7 seconds ago', $response->statusText);
     $this->assertEquals(0, $response->data->testsCompleted);
 
     // Test an invalid test.
     $response = $wpt->getTestStatus('invalid');
-    $this->assertEquals(400, $response->statusCode);
+    $this->assertEquals(StatusCode::BAD_REQUEST, $response->statusCode);
     $this->assertEquals('Test not found', $response->statusText);
 
     // Test a connection failure.
@@ -84,9 +85,9 @@ class WebPageTestUnitTest extends TestCase {
   public function testGetTestResults() {
     // Setup our Mock Connection.
     $mock = new MockHandler([
-      new Response(200, [], file_get_contents(__DIR__ . '/fixtures/testresults-complete.json')),
-      new Response(100, [], file_get_contents(__DIR__ . '/fixtures/testresults-started.json')),
-      new Response(400, [], file_get_contents(__DIR__ . '/fixtures/testresults-invalid.json')),
+      new Response(StatusCode::OK, [], file_get_contents(__DIR__ . '/fixtures/testresults-complete.json')),
+      new Response(StatusCode::CONTINUING, [], file_get_contents(__DIR__ . '/fixtures/testresults-started.json')),
+      new Response(StatusCode::BAD_REQUEST, [], file_get_contents(__DIR__ . '/fixtures/testresults-invalid.json')),
       new RequestException("Error Communicating with Server", new Request('GET', 'test')),
     ]);
     $handler = HandlerStack::create($mock);
@@ -94,7 +95,7 @@ class WebPageTestUnitTest extends TestCase {
 
     // Test a completed test.
     $response = $wpt->getTestResults('ABC123');
-    $this->assertEquals(200, $response->statusCode);
+    $this->assertEquals(StatusCode::OK, $response->statusCode);
     $this->assertEquals('https://www.google.com', $response->data->testUrl);
     $this->assertEquals(1, count($response->data->runs));
     $this->assertEquals(3834, $response->data->average->firstView->fullyLoaded);
@@ -102,12 +103,12 @@ class WebPageTestUnitTest extends TestCase {
 
     // Test a running test.
     $response = $wpt->getTestResults('ABC123');
-    $this->assertEquals(100, $response->statusCode);
+    $this->assertEquals(StatusCode::CONTINUING, $response->statusCode);
     $this->assertEquals('Test Started 15 seconds ago', $response->statusText);
 
     // Test an invalid test.
     $response = $wpt->getTestResults('invalid');
-    $this->assertEquals(400, $response->statusCode);
+    $this->assertEquals(StatusCode::BAD_REQUEST, $response->statusCode);
     $this->assertEquals('Test not found', $response->statusText);
 
     // Test a connection failure.
@@ -121,7 +122,7 @@ class WebPageTestUnitTest extends TestCase {
   public function testGetLocations() {
     // Setup our Mock Connection.
     $mock = new MockHandler([
-      new Response(200, [], file_get_contents(__DIR__ . '/fixtures/locations.json')),
+      new Response(StatusCode::OK, [], file_get_contents(__DIR__ . '/fixtures/locations.json')),
       new RequestException("Error Communicating with Server", new Request('GET', 'test')),
     ]);
     $handler = HandlerStack::create($mock);
@@ -129,7 +130,7 @@ class WebPageTestUnitTest extends TestCase {
 
     // Test a completed test.
     $response = $wpt->getLocations();
-    $this->assertEquals(200, $response->statusCode);
+    $this->assertEquals(StatusCode::OK, $response->statusCode);
     $this->assertObjectHasAttribute('Dulles_MotoE', $response->data);
 
     // Test a connection failure.

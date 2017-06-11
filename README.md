@@ -19,12 +19,26 @@ $wpt = new WebPageTest('YOUR_API_KEY');
 
 To obtain a key, see [Request API Key](http://www.webpagetest.org/getkey.php).
 
+### Status Codes
+
+It is recommended to use an external library, such as [Teapot](https://github.com/shrikeh/teapot) instead of hardcoding status codes.
+```
+<?php
+use Teapot\StatusCode;
+
+# Examples:
+StatusCode::CONTINUING;   // 100
+StatusCode::OK;           // 200
+StatusCode::BAD_REQUEST;  // 400
+?>
+```
+
 ### Running a URL test
 ```php
 <?php
 
 if ($response = $wpt->runTest('https://www.google.com')) {
-  if ($response->statusCode == 200) {
+  if ($response->statusCode == StatusCode::OK) {
     // All test info is available in $response->data.
     $test_id = $response->data->testId;
   }
@@ -43,7 +57,7 @@ $options = [
 ];
 
 if ($response = $wpt->runTest('https://www.google.com', $options)) {
-  if ($response->statusCode == 200) {
+  if ($response->statusCode == StatusCode::OK) {
     // All test info is available in $response->data.
     $test_id = $response->data->testId;
   }
@@ -58,10 +72,10 @@ if ($response = $wpt->runTest('https://www.google.com', $options)) {
 <?php
 if ($response = $wpt->getTestStatus($test_id)) {
   // All test info is available in $response->data.
-  if ($response->statusCode == 200) {
+  if ($response->statusCode == StatusCode::OK) {
     // Test is complete.
   }
-  else if ($response->statusCode == 100) {
+  else if ($response->statusCode == StatusCode::CONTINUING) {
     // Test is still running.
   }
   else {
@@ -76,10 +90,10 @@ if ($response = $wpt->getTestStatus($test_id)) {
 <?php
 if ($response = $wpt->getTestResults($test_id)) {
   // All test result info is available in $response->data.
-  if ($response->statusCode == 200) {
+  if ($response->statusCode == StatusCode::OK) {
     // Test is complete.
   }
-  else if ($response->statusCode == 100) {
+  else if ($response->statusCode == StatusCode::CONTINUING) {
     // Test is still running.
   }
   else {
@@ -93,7 +107,7 @@ if ($response = $wpt->getTestResults($test_id)) {
 ```php
 <?php
 if ($response = $wpt->getLocations()) {
-  if ($response->statusCode == 200) {
+  if ($response->statusCode == StatusCode::OK) {
     // All locations info is available in $response->data.
   }
 }
