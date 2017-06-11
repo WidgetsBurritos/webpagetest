@@ -4,7 +4,7 @@
 
 A php library for interacting with webpagetest.org.
 
-*Requires PHP 7+*
+*Requires PHP 5.5+*
 
 ## Usage
 
