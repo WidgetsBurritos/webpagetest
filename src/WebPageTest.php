@@ -79,4 +79,12 @@ class WebPageTest {
     return $this->getRequest($uri, $query_params + $options);
   }
 
+  public function getLocations(array $options = []) {
+    $uri = 'http://www.webpagetest.org/getLocations.php';
+    $query_params = [
+      'f' => 'json',
+    ];
+
+    return $this->getRequest($uri, $query_params + $options);
+  }
 }
