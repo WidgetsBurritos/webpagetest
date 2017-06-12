@@ -12,17 +12,26 @@ use GuzzleHttp\Exception\RequestException;
 class WebPageTest {
   private $apiKey;
   private $client;
+  private $baseUrl;
 
   /**
    * Instantiates a new Web Page Test.
    */
-  public function __construct($api_key, $handler = NULL) {
+  public function __construct($api_key, $handler = NULL, $base_url = 'http://www.webpagetest.org') {
     $this->apiKey = $api_key;
+    $this->baseUrl = $base_url;
     $client_options = [];
     if (isset($handler)) {
       $client_options['handler'] = $handler;
     }
     $this->client = new Client($client_options);
+  }
+
+  /**
+   * Retrieves the base url.
+   */
+  public function getBaseUrl() {
+    return $this->baseUrl;
   }
 
   /**
@@ -49,8 +58,8 @@ class WebPageTest {
   /**
    * Initializes a new test on the specified URL.
    */
-  public function runTest($url, array $options = [], $base_url = 'http://www.webpagetest.org') {
-    $uri = "${base_url}/runtest.php";
+  public function runTest($url, array $options = []) {
+    $uri = "{$this->baseUrl}/runtest.php";
     $query_params = [
       'k' => $this->apiKey,
       'url' => $url,
@@ -63,8 +72,8 @@ class WebPageTest {
   /**
    * Retrieves the status of a test with the specified id.
    */
-  public function getTestStatus($test_id, array $options = [], $base_url = 'http://www.webpagetest.org') {
-    $uri = "${base_url}/testStatus.php";
+  public function getTestStatus($test_id, array $options = []) {
+    $uri = "{$this->baseUrl}/testStatus.php";
     $query_params = [
       'test' => $test_id,
       'f' => 'json',
@@ -76,8 +85,8 @@ class WebPageTest {
   /**
    * Retrieves results of test with the specified id.
    */
-  public function getTestResults($test_id, array $options = [], $base_url = 'http://www.webpagetest.org') {
-    $uri = "${base_url}/jsonResult.php";
+  public function getTestResults($test_id, array $options = []) {
+    $uri = "{$this->baseUrl}/jsonResult.php";
     $query_params = [
       'test' => $test_id,
     ];
@@ -88,8 +97,8 @@ class WebPageTest {
   /**
    * Retrieves list of locations.
    */
-  public function getLocations(array $options = [], $base_url = 'http://www.webpagetest.org') {
-    $uri = "${base_url}/getLocations.php";
+  public function getLocations(array $options = []) {
+    $uri = "{$this->baseUrl}/getLocations.php";
     $query_params = [
       'f' => 'json',
     ];

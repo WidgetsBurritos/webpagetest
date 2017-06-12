@@ -142,23 +142,11 @@ class WebPageTestUnitTest extends TestCase {
    * Test alternate hostnames.
    */
   public function testAlternateHost() {
-    // Setup our Mock Connection.
-    $mock = new MockHandler([
-      new Response(StatusCode::OK, [], file_get_contents(__DIR__ . '/fixtures/runtest-althost.json')),
-      new RequestException("Error Communicating with Server", new Request('GET', 'test')),
-    ]);
-    $handler = HandlerStack::create($mock);
-    $wpt = new WebPageTest('phonykey', $handler);
+    $wpt = new WebPageTest('phonykey', NULL);
+    $this->assertEquals('http://www.webpagetest.org', $wpt->getBaseUrl());
 
-    // Test a successful connection.
-    $response = $wpt->runTest('https://www.google.com', [], 'http://www.example.com/wpt');
-    $this->assertEquals(StatusCode::OK, $response->statusCode);
-    $expected_url = 'http://www.example.com/wpt/jsonResult.php?test=ABC123';
-    $this->assertEquals($expected_url, $response->data->jsonUrl);
-
-    // Test a connection failure.
-    $response = $wpt->runTest('https://www.google.com');
-    $this->assertNull($response);
+    $wpt = new WebPageTest('phonykey', NULL, 'http://www.example.com/wpt');
+    $this->assertEquals('http://www.example.com/wpt', $wpt->getBaseUrl());
   }
 
 }

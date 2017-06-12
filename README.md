@@ -9,6 +9,9 @@ A php library for interacting with webpagetest.org.
 ## Usage
 
 ### Instantiating a new instance
+
+To obtain a key, see [Request API Key](http://www.webpagetest.org/getkey.php).
+
 ```php
 <?php
 
@@ -16,8 +19,23 @@ use WidgetsBurritos\WebPageTest\WebPageTest;
 
 $wpt = new WebPageTest('YOUR_API_KEY');
 ```
+To specify an alternate connection handler:
 
-To obtain a key, see [Request API Key](http://www.webpagetest.org/getkey.php).
+```
+<?php
+use WidgetsBurritos\WebPageTest\WebPageTest;
+
+$wpt = new WebPageTest('YOUR_API_KEY', $handler);
+```
+
+To specify an alternate hosting instance:
+
+```
+<?php
+use WidgetsBurritos\WebPageTest\WebPageTest;
+
+$wpt = new WebPageTest('YOUR_API_KEY', $handler, 'https://www.example.com');
+```
 
 ### Status Codes
 
