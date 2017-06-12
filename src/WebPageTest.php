@@ -49,8 +49,8 @@ class WebPageTest {
   /**
    * Initializes a new test on the specified URL.
    */
-  public function runTest($url, array $options = []) {
-    $uri = 'http://www.webpagetest.org/runtest.php';
+  public function runTest($url, array $options = [], $base_url = 'http://www.webpagetest.org') {
+    $uri = "${base_url}/runtest.php";
     $query_params = [
       'k' => $this->apiKey,
       'url' => $url,
@@ -63,8 +63,8 @@ class WebPageTest {
   /**
    * Retrieves the status of a test with the specified id.
    */
-  public function getTestStatus($test_id, array $options = []) {
-    $uri = 'http://www.webpagetest.org/testStatus.php';
+  public function getTestStatus($test_id, array $options = [], $base_url = 'http://www.webpagetest.org') {
+    $uri = "${base_url}/testStatus.php";
     $query_params = [
       'test' => $test_id,
       'f' => 'json',
@@ -76,8 +76,8 @@ class WebPageTest {
   /**
    * Retrieves results of test with the specified id.
    */
-  public function getTestResults($test_id, array $options = []) {
-    $uri = 'http://www.webpagetest.org/jsonResult.php';
+  public function getTestResults($test_id, array $options = [], $base_url = 'http://www.webpagetest.org') {
+    $uri = "${base_url}/jsonResult.php";
     $query_params = [
       'test' => $test_id,
     ];
@@ -88,8 +88,8 @@ class WebPageTest {
   /**
    * Retrieves list of locations.
    */
-  public function getLocations(array $options = []) {
-    $uri = 'http://www.webpagetest.org/getLocations.php';
+  public function getLocations(array $options = [], $base_url = 'http://www.webpagetest.org') {
+    $uri = "${base_url}/getLocations.php";
     $query_params = [
       'f' => 'json',
     ];
