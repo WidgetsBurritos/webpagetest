@@ -14,6 +14,10 @@ use GuzzleHttp\Exception\RequestException;
  */
 class WebPageTestUnitTest extends TestCase {
 
+  public function testFail() {
+    $this->assertFalse(TRUE);
+  }
+
   /**
    * Test runTest() functionality.
    */
@@ -120,7 +124,7 @@ class WebPageTestUnitTest extends TestCase {
    * Test getLocations() functionality.
    */
   public function testGetLocations() {
-    // Setup our Mock Connection.
+      // Setup our Mock Connection.
     $mock = new MockHandler([
       new Response(StatusCode::OK, [], file_get_contents(__DIR__ . '/fixtures/locations.json')),
       new RequestException("Error Communicating with Server", new Request('GET', 'test')),

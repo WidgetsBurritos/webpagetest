@@ -10,7 +10,7 @@ use GuzzleHttp\Exception\RequestException;
  * WebPageTest class.
  */
 class WebPageTest {
-  private $apiKey;
+    private $apiKey;
   private $client;
 
   /**
