@@ -51,6 +51,7 @@ class WebPageTestUnitTest extends TestCase {
     $mock = new MockHandler([
       new Response(StatusCode::OK, [], file_get_contents(__DIR__ . '/fixtures/teststatus-complete.json')),
       new Response(StatusCode::CONTINUING, [], file_get_contents(__DIR__ . '/fixtures/teststatus-started.json')),
+      new Response(StatusCode::PAYMENT_REQUIRED, [], file_get_contents(__DIR__ . '/fixtures/teststatus-cancelled.json')),
       new Response(StatusCode::BAD_REQUEST, [], file_get_contents(__DIR__ . '/fixtures/teststatus-invalid.json')),
       new RequestException("Error Communicating with Server", new Request('GET', 'test')),
     ]);
@@ -68,6 +69,11 @@ class WebPageTestUnitTest extends TestCase {
     $this->assertEquals(StatusCode::CONTINUING, $response->statusCode);
     $this->assertEquals('Test Started 7 seconds ago', $response->statusText);
     $this->assertEquals(0, $response->data->testsCompleted);
+
+    // Test a cancelled test.
+    $response = $wpt->getTestStatus('ABC123');
+    $this->assertEquals(StatusCode::PAYMENT_REQUIRED, $response->statusCode);
+    $this->assertEquals('Test Cancelled', $response->statusText);
 
     // Test an invalid test.
     $response = $wpt->getTestStatus('invalid');
