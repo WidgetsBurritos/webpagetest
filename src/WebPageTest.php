@@ -37,7 +37,7 @@ class WebPageTest {
   /**
    * Makes a get request on a url with specified query parameters.
    */
-  private function getRequest($uri, array $query_params = []) {
+  private function getRequest($uri, array $query_params = [], $expect_json = TRUE) {
     try {
       $response = $this->client->request('GET', $uri, ['query' => $query_params]);
     }
@@ -49,7 +49,11 @@ class WebPageTest {
     }
 
     if ($response) {
-      return json_decode($response->getBody());
+      $body = (string) $response->getBody();
+      if ($expect_json) {
+        return json_decode($body);
+      }
+      return $body;
     }
 
     return NULL;
@@ -104,6 +108,19 @@ class WebPageTest {
     ];
 
     return $this->getRequest($uri, $query_params + $options);
+  }
+
+  /**
+   * Cancels a test.
+   */
+  public function cancelTest($test_id, array $options = []) {
+    $uri = "{$this->baseUrl}/cancelTest.php";
+    $query_params = [
+      'k' => $this->apiKey,
+      'test' => $test_id,
+    ];
+
+    return $this->getRequest($uri, $query_params + $options, FALSE);
   }
 
 }

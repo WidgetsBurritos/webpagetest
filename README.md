@@ -94,14 +94,21 @@ if ($response = $wpt->getTestStatus($test_id)) {
     // Test is complete.
   }
   else if ($response->statusCode == StatusCode::CONTINUING) {
-    // Test is still running.
+    // Test is running.
   }
+  else if ($response->startCode == StatusCode::SWITCHING_PROTOCOLS) {
+    // Test is waiting to start.
+  }
+  else if ($response->statusCode == StatusCode::PAYMENT_REQUIRED) {
+    // Test has been cancelled.
   else {
     // Test failed.
   }
 }
 ?>
 ```
+
+^ Note: the switching protocol and payment required status checks are not a mistake. As of 10/25/2017, [webpagetest.org returns a "101 switching protocols" status for pending tests and a "402 Payment Required" status for cancelled tests.](https://github.com/WPO-Foundation/webpagetest/blob/7d5b9136f9e85e9905aa710d8b197d10356b5799/www/testStatus.inc#L315-L327)
 
 ### Getting a test's results
 ```php
@@ -129,5 +136,14 @@ if ($response = $wpt->getLocations()) {
     // All locations info is available in $response->data.
   }
 }
+?>
+```
+
+### Cancelling a Test
+
+You can cancel a test by simply running:
+```php
+<?php
+$wpt->cancelTest($test_id);
 ?>
 ```
