@@ -45,11 +45,16 @@ It is recommended to use an external library, such as [Teapot](https://github.co
 use Teapot\StatusCode;
 
 # Examples:
-StatusCode::CONTINUING;   // 100
-StatusCode::OK;           // 200
-StatusCode::BAD_REQUEST;  // 400
+StatusCode::CONTINUING;          // 100 (Test Started)
+StatusCode::SWITCHING_PROTOCOLS; // 101 (Test Pending)
+StatusCode::OK;                  // 200 (Test Complete)
+StatusCode::BAD_REQUEST;         // 400 (Test Not Found)
+StatusCode::UNAUTHORIZED;        // 401 (Test Request Not Found)
+StatusCode::PAYMENT_REQUIRED;    // 402 (Test Cancelled)
 ?>
 ```
+
+^ Note: the switching protocol and payment required status checks are not a mistake. As of 10/25/2017, [webpagetest.org returns a "101 switching protocols" status for pending tests and a "402 Payment Required" status for cancelled tests.](https://github.com/WPO-Foundation/webpagetest/blob/7d5b9136f9e85e9905aa710d8b197d10356b5799/www/testStatus.inc#L315-L327)
 
 ### Running a URL test
 ```php
@@ -108,8 +113,6 @@ if ($response = $wpt->getTestStatus($test_id)) {
 ?>
 ```
 
-^ Note: the switching protocol and payment required status checks are not a mistake. As of 10/25/2017, [webpagetest.org returns a "101 switching protocols" status for pending tests and a "402 Payment Required" status for cancelled tests.](https://github.com/WPO-Foundation/webpagetest/blob/7d5b9136f9e85e9905aa710d8b197d10356b5799/www/testStatus.inc#L315-L327)
-
 ### Getting a test's results
 ```php
 <?php
@@ -118,8 +121,8 @@ if ($response = $wpt->getTestResults($test_id)) {
   if ($response->statusCode == StatusCode::OK) {
     // Test is complete.
   }
-  else if ($response->statusCode == StatusCode::CONTINUING) {
-    // Test is still running.
+  else if (in_array($response->statusCode, [StatusCode::CONTINUING, StatusCode::SWITCHING_PROTOCOLS])) {
+    // Test is not yet complete.
   }
   else {
     // Test failed.
