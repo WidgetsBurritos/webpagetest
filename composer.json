@@ -1,7 +1,7 @@
 {
     "name": "widgetsburritos/webpagetest",
     "description": "PHP Library for Interacting with Web Page Test",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "type": "library",
     "require": {
         "php": ">=5.5",
@@ -13,7 +13,7 @@
         "drupal/coder": "^8.2",
         "phpdocumentor/reflection-docblock": "^2.0"
     },
-    "license": "GPL",
+    "license": "GPL-3.0-only",
     "authors": [
         {
             "name": "WidgetsBurritos",
