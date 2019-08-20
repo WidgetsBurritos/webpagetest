@@ -103,7 +103,7 @@ class WebPageTestUnitTest extends TestCase {
     $response = $wpt->getTestResults('ABC123');
     $this->assertEquals(StatusCode::OK, $response->statusCode);
     $this->assertEquals('https://www.google.com', $response->data->testUrl);
-    $this->assertEquals(1, count($response->data->runs));
+    $this->assertEquals(1, count((array) $response->data->runs));
     $this->assertEquals(3834, $response->data->average->firstView->fullyLoaded);
     $this->assertEquals(3390, $response->data->average->repeatView->fullyLoaded);
 
