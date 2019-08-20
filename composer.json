@@ -1,7 +1,7 @@
 {
     "name": "widgetsburritos/webpagetest",
     "description": "PHP Library for Interacting with Web Page Test",
-    "version": "1.0.6",
+    "version": "2.0.0",
     "type": "library",
     "require": {
         "php": ">=7.1",
