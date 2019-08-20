@@ -10,8 +10,26 @@ use GuzzleHttp\Exception\RequestException;
  * WebPageTest class.
  */
 class WebPageTest {
+
+  /**
+   * API key.
+   *
+   * @var string
+   */
   private $apiKey;
+
+  /**
+   * Http Client.
+   *
+   * @var \GuzzleHttp\Client
+   */
   private $client;
+
+  /**
+   * Base url.
+   *
+   * @var string
+   */
   private $baseUrl;
 
   /**
